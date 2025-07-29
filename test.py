@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 # 앱 제목
 st.title("수학 함수 그래프 그리기")
@@ -18,19 +18,12 @@ if user_function:
         # 사용자가 입력한 함수를 실행할 수 있도록 하기
         y = eval(user_function)  # 입력한 수식 계산
         
-        # 그래프 그리기
-        plt.figure(figsize=(8, 6))
-        plt.plot(x, y, label=f'y = {user_function}')
-        plt.title(f'그래프: y = {user_function}')
-        plt.xlabel('x')
-        plt.ylabel('y')
-        plt.grid(True)
-        plt.axhline(0, color='black',linewidth=0.5)
-        plt.axvline(0, color='black',linewidth=0.5)
-        plt.legend(loc="best")
+        # Plotly 그래프 그리기
+        fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name=f'y = {user_function}'))
+        fig.update_layout(title=f'그래프: y = {user_function}', xaxis_title='x', yaxis_title='y')
         
         # Streamlit에서 그래프 표시
-        st.pyplot(plt)
+        st.plotly_chart(fig)
 
     except Exception as e:
         st.error(f"함수 계산 중 오류가 발생했습니다: {e}")
